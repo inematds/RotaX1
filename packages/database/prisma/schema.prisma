@@ -174,6 +174,7 @@ model Order {
   id               String        @id @default(uuid())
   clientId         String        @map("client_id")
   driverId         String?       @map("driver_id")
+  pharmacyId       String?       @map("pharmacy_id")
   status           OrderStatus   @default(PENDING_PAYMENT)
   category         OrderCategory
   urgency          OrderUrgency  @default(STANDARD)
@@ -185,25 +186,32 @@ model Order {
   deliveryLat      Decimal       @map("delivery_lat") @db.Decimal(10, 8)
   deliveryLng      Decimal       @map("delivery_lng") @db.Decimal(11, 8)
   distanceKm       Decimal       @map("distance_km") @db.Decimal(10, 2)
+  estimatedMinutes Int?          @map("estimated_minutes")
   price            Decimal       @db.Decimal(10, 2)
   platformFee      Decimal       @map("platform_fee") @db.Decimal(10, 2)
   driverEarning    Decimal       @map("driver_earning") @db.Decimal(10, 2)
   pickupPhotoUrl   String?       @map("pickup_photo_url")
   deliveryPhotoUrl String?       @map("delivery_photo_url")
+  receiverName     String?       @map("receiver_name")
+  cancelReason     String?       @map("cancel_reason")
   createdAt        DateTime      @default(now()) @map("created_at")
   acceptedAt       DateTime?     @map("accepted_at")
   pickedUpAt       DateTime?     @map("picked_up_at")
   deliveredAt      DateTime?     @map("delivered_at")
   cancelledAt      DateTime?     @map("cancelled_at")
 
-  client  Client   @relation(fields: [clientId], references: [id])
-  driver  Driver?  @relation(fields: [driverId], references: [id])
-  payment Payment?
-  rating  Rating?
+  client        Client              @relation(fields: [clientId], references: [id])
+  driver        Driver?             @relation(fields: [driverId], references: [id])
+  pharmacy      Pharmacy?           @relation("PharmacyOrders", fields: [pharmacyId], references: [id])
+  payment       Payment?
+  rating        Rating?
+  statusHistory OrderStatusHistory[]
 
   @@index([status])
   @@index([clientId])
   @@index([driverId])
+  @@index([pharmacyId])
+  @@index([createdAt])
   @@map("orders")
 }
 
@@ -249,4 +257,58 @@ model AdminAction {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("admin_actions")
+}
+
+// ============================================
+// PHARMACY MODULE
+// ============================================
+
+model Pharmacy {
+  id            String   @id @default(uuid())
+  name          String
+  tradeName     String?  @map("trade_name")
+  cnpj          String   @unique
+  phone         String
+  email         String?
+  logoUrl       String?  @map("logo_url")
+  street        String
+  number        String
+  complement    String?
+  neighborhood  String?
+  city          String
+  state         String   @db.Char(2)
+  zipCode       String   @map("zip_code")
+  lat           Decimal  @db.Decimal(10, 8)
+  lng           Decimal  @db.Decimal(11, 8)
+  isActive      Boolean  @default(true) @map("is_active")
+  openingHours  Json?    @map("opening_hours")
+  acceptsExpress Boolean @default(true) @map("accepts_express")
+  rating        Decimal  @default(0) @db.Decimal(3, 2)
+  ratingCount   Int      @default(0) @map("rating_count")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  orders Order[] @relation("PharmacyOrders")
+
+  @@index([city, isActive])
+  @@map("pharmacies")
+}
+
+// ============================================
+// ORDER TRACKING
+// ============================================
+
+model OrderStatusHistory {
+  id        String      @id @default(uuid())
+  orderId   String      @map("order_id")
+  status    OrderStatus
+  notes     String?
+  lat       Decimal?    @db.Decimal(10, 8)
+  lng       Decimal?    @db.Decimal(11, 8)
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId, createdAt])
+  @@map("order_status_history")
 }

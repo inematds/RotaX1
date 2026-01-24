@@ -7,6 +7,11 @@ import { config } from './common/config/index.js';
 import { errorHandler } from './common/plugins/error-handler.js';
 import { requestIdPlugin } from './common/plugins/request-id.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
+import { clientsRoutes } from './modules/clients/clients.routes.js';
+import { pharmaciesRoutes } from './modules/pharmacies/pharmacies.routes.js';
+import { ordersRoutes } from './modules/orders/orders.routes.js';
+import { driversRoutes } from './modules/drivers/drivers.routes.js';
+import { adminRoutes } from './modules/admin/admin.routes.js';
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = Fastify({
@@ -103,6 +108,11 @@ export async function buildApp(): Promise<FastifyInstance> {
 
   // Routes
   await app.register(authRoutes, { prefix: '/auth' });
+  await app.register(clientsRoutes, { prefix: '/clients' });
+  await app.register(pharmaciesRoutes, { prefix: '/pharmacies' });
+  await app.register(ordersRoutes, { prefix: '/orders' });
+  await app.register(driversRoutes, { prefix: '/drivers' });
+  await app.register(adminRoutes, { prefix: '/admin' });
 
   return app;
 }

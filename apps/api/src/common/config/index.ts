@@ -13,6 +13,11 @@ const configSchema = z.object({
   redis: z.object({
     url: z.string().url(),
   }),
+  googleMapsApiKey: z.string().optional(),
+  mercadoPago: z.object({
+    accessToken: z.string().optional(),
+    publicKey: z.string().optional(),
+  }),
 });
 
 const rawConfig = {
@@ -27,6 +32,11 @@ const rawConfig = {
   },
   redis: {
     url: process.env.REDIS_URL || 'redis://localhost:6379',
+  },
+  googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+  mercadoPago: {
+    accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN,
+    publicKey: process.env.MERCADOPAGO_PUBLIC_KEY,
   },
 };
 
