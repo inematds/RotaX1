@@ -2,9 +2,9 @@
 
 ## Project Status: 🟢 Development In Progress
 
-**Last Updated:** 2026-01-23
-**Current Phase:** Development (Epic 1 Complete)
-**Current Agent:** Dev - Ready for Epic 2
+**Last Updated:** 2026-01-24
+**Current Phase:** Development (Epic 1-4 Complete)
+**Current Agent:** Dev - Ready for Epic 5 (Carrier Module) or Frontend
 
 ---
 
@@ -67,31 +67,31 @@
 | Story 1.3: Authentication system | ✅ Implemented | Dev | 2026-01-23 |
 | Story 1.4: Base API structure | ✅ Implemented | Dev | 2026-01-23 |
 
-### Epic 2: Client Module
+### Epic 2: Client Module ✅ COMPLETE
 | Story | Status | Agent | Date |
 |-------|--------|-------|------|
-| Story 2.1: Client registration/login | ⏳ Pending | SM/Dev | - |
-| Story 2.2: Order creation flow | ⏳ Pending | SM/Dev | - |
-| Story 2.3: Payment integration (Pix) | ⏳ Pending | SM/Dev | - |
-| Story 2.4: Real-time tracking | ⏳ Pending | SM/Dev | - |
-| Story 2.5: Order history & ratings | ⏳ Pending | SM/Dev | - |
+| Story 2.1: Client profile & addresses | ✅ Implemented | Dev | 2026-01-24 |
+| Story 2.2: Pharmacy search & selection | ✅ Implemented | Dev | 2026-01-24 |
+| Story 2.3: Order creation & pricing | ✅ Implemented | Dev | 2026-01-24 |
+| Story 2.4: Order tracking | ✅ Implemented | Dev | 2026-01-24 |
+| Story 2.5: Order history & ratings | ✅ Implemented | Dev | 2026-01-24 |
 
-### Epic 3: Driver Module
+### Epic 3: Driver Module ✅ COMPLETE
 | Story | Status | Agent | Date |
 |-------|--------|-------|------|
-| Story 3.1: Driver registration with docs | ⏳ Pending | SM/Dev | - |
-| Story 3.2: Geolocation & availability | ⏳ Pending | SM/Dev | - |
-| Story 3.3: Order acceptance flow | ⏳ Pending | SM/Dev | - |
-| Story 3.4: Route visualization | ⏳ Pending | SM/Dev | - |
-| Story 3.5: Earnings dashboard | ⏳ Pending | SM/Dev | - |
+| Story 3.1: Driver profile & documents | ✅ Implemented | Dev | 2026-01-24 |
+| Story 3.2: Availability & location | ✅ Implemented | Dev | 2026-01-24 |
+| Story 3.3: Order acceptance | ✅ Implemented | Dev | 2026-01-24 |
+| Story 3.4: Pickup & delivery confirm | ✅ Implemented | Dev | 2026-01-24 |
+| Story 3.5: Earnings dashboard | ✅ Implemented | Dev | 2026-01-24 |
 
-### Epic 4: Admin Module
+### Epic 4: Admin Module ✅ COMPLETE
 | Story | Status | Agent | Date |
 |-------|--------|-------|------|
-| Story 4.1: User management | ⏳ Pending | SM/Dev | - |
-| Story 4.2: Order management | ⏳ Pending | SM/Dev | - |
-| Story 4.3: Financial control | ⏳ Pending | SM/Dev | - |
-| Story 4.4: Reports & metrics | ⏳ Pending | SM/Dev | - |
+| Story 4.1: Dashboard & metrics | ✅ Implemented | Dev | 2026-01-24 |
+| Story 4.2: User management | ✅ Implemented | Dev | 2026-01-24 |
+| Story 4.3: Order management | ✅ Implemented | Dev | 2026-01-24 |
+| Story 4.4: Financial & payouts | ✅ Implemented | Dev | 2026-01-24 |
 
 ### Epic 5: Carrier Module (Phase 2)
 | Story | Status | Agent | Date |
@@ -148,15 +148,23 @@
 ```
 rotax1/
 ├── apps/
-│   ├── api/                 # Fastify API (✅ Implemented)
+│   ├── api/                 # Fastify API (✅ Complete)
 │   │   └── src/
-│   │       ├── common/      # Config, errors, middlewares, plugins
-│   │       └── modules/     # Feature modules (auth, etc.)
+│   │       ├── common/      # Config, errors, middlewares, plugins, services
+│   │       │   └── services/  # Geocoding, Pricing (✅ Implemented)
+│   │       └── modules/     # Feature modules
+│   │           ├── auth/      # Authentication (✅ Implemented)
+│   │           ├── clients/   # Client module (✅ Implemented)
+│   │           ├── pharmacies/# Pharmacy search (✅ Implemented)
+│   │           ├── orders/    # Order management (✅ Implemented)
+│   │           ├── drivers/   # Driver module (✅ Implemented)
+│   │           └── admin/     # Admin module (✅ Implemented)
 │   ├── mobile/              # React Native app (⏳ Pending)
 │   ├── web/                 # Next.js client portal (⏳ Pending)
 │   └── admin/               # Next.js admin panel (⏳ Pending)
 ├── packages/
 │   ├── database/            # Prisma + PostgreSQL (✅ Implemented)
+│   │   └── prisma/schema.prisma  # Includes Pharmacy, OrderStatusHistory
 │   ├── shared/              # Shared utilities (✅ Implemented)
 │   └── ui/                  # Shared UI components (⏳ Pending)
 └── infrastructure/
@@ -181,4 +189,18 @@ rotax1/
 - **Cidade piloto:** A definir
 - **Tech stack:** TypeScript, Fastify, Prisma, PostgreSQL/PostGIS, React Native (Expo)
 - **Decisão pendente:** Definir cidade piloto e parcerias iniciais
-- **Próximo passo:** Implementar Epic 2 (Client Module) ou criar stories detalhadas
+- **Backend API:** ✅ Completo (Epic 1-4 implementados)
+- **Próximo passo:**
+  - Opção 1: Implementar Epic 5 (Carrier Module - Fase 2)
+  - Opção 2: Configurar Frontend (Mobile ou Web)
+  - Opção 3: Rodar migrations e criar seed de farmácias
+  - Opção 4: Adicionar testes unitários/integração
+
+## Recent Commits
+
+| Commit | Description | Date |
+|--------|-------------|------|
+| `9c6ba0c` | feat: Implement Epic 2, 3, and 4 - Client, Driver, and Admin modules | 2026-01-24 |
+| `85d373f` | docs: Add detailed stories for Epic 4 and 5 | 2026-01-24 |
+| `7f72c39` | docs: Add detailed stories for Epic 2 and 3 | 2026-01-23 |
+| `622764b` | feat: Implement Epic 1 - Foundation & Core Infrastructure | 2026-01-23 |

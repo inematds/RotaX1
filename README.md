@@ -198,6 +198,70 @@ FIREBASE_CLIENT_EMAIL="seu-email"
 | POST | `/auth/refresh` | Renova access token |
 | GET | `/auth/me` | Dados do usuário autenticado |
 
+### Clientes
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/clients/profile` | Perfil do cliente |
+| PATCH | `/clients/profile` | Atualiza perfil |
+| POST | `/clients/profile/photo` | Upload foto de perfil |
+| GET | `/clients/addresses` | Lista endereços |
+| POST | `/clients/addresses` | Adiciona endereço |
+| PATCH | `/clients/addresses/:id` | Atualiza endereço |
+| DELETE | `/clients/addresses/:id` | Remove endereço |
+
+### Farmácias
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/pharmacies` | Busca farmácias |
+| GET | `/pharmacies/:id` | Detalhes da farmácia |
+| GET | `/pharmacies/nearby` | Farmácias próximas |
+
+### Pedidos (Cliente)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST | `/orders/calculate-price` | Calcula preço |
+| POST | `/orders` | Cria pedido |
+| GET | `/orders/:id` | Detalhes do pedido |
+| GET | `/orders/:id/track` | Rastrear pedido |
+| GET | `/orders/history` | Histórico de pedidos |
+| POST | `/orders/:id/cancel` | Cancela pedido |
+| POST | `/orders/:id/rate` | Avalia pedido |
+
+### Motoristas
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/drivers/profile` | Perfil do motorista |
+| PATCH | `/drivers/profile` | Atualiza perfil |
+| POST | `/drivers/documents` | Upload documento |
+| POST | `/drivers/availability` | Toggle online/offline |
+| POST | `/drivers/location` | Atualiza localização |
+| GET | `/drivers/orders/available` | Pedidos disponíveis |
+| POST | `/drivers/orders/accept` | Aceita pedido |
+| GET | `/drivers/orders/current` | Pedido atual |
+| POST | `/drivers/orders/:id/pickup` | Confirma coleta |
+| POST | `/drivers/orders/:id/deliver` | Confirma entrega |
+| GET | `/drivers/earnings` | Ganhos |
+
+### Admin
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/admin/dashboard` | Dashboard KPIs |
+| GET | `/admin/users` | Lista usuários |
+| PATCH | `/admin/users/:id/status` | Bloqueia/desbloqueia |
+| GET | `/admin/drivers/pending` | Motoristas pendentes |
+| POST | `/admin/drivers/:id/approve` | Aprova/rejeita motorista |
+| GET | `/admin/orders` | Lista pedidos |
+| POST | `/admin/orders/:id/cancel` | Cancela pedido |
+| POST | `/admin/orders/:id/reassign` | Reatribui motorista |
+| GET | `/admin/financial/report` | Relatório financeiro |
+| GET | `/admin/financial/payouts` | Lista repasses |
+| POST | `/admin/financial/payouts/process` | Processa repasses |
+
 ### Health Check
 
 | Método | Endpoint | Descrição |
@@ -263,15 +327,18 @@ Address (endereços salvos do cliente)
 
 ## Roadmap
 
-### Fase 1: MVP (Atual)
+### Fase 1: MVP (Backend Completo ✅)
 - [x] Infraestrutura base (monorepo, DB, auth)
-- [ ] App cliente (cadastro, pedidos, pagamento)
-- [ ] App entregador (cadastro, aceite, navegação)
-- [ ] Painel admin básico
+- [x] API Cliente (perfil, endereços, pedidos, pagamento, tracking)
+- [x] API Entregador (cadastro, aceite, coleta, entrega, ganhos)
+- [x] API Admin (dashboard, usuários, pedidos, financeiro)
+- [ ] Frontend Mobile (React Native)
+- [ ] Frontend Web Admin (Next.js)
 
 ### Fase 2: Expansão
-- [ ] Módulo de transportadoras
-- [ ] Integração com múltiplos gateways de pagamento
+- [ ] Módulo de transportadoras (Epic 5 - stories prontas)
+- [ ] Integração Mercado Pago (Pix real)
+- [ ] Push notifications (Firebase)
 - [ ] App iOS/Android nas lojas
 
 ### Fase 3: Escala
